@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>ThreatTrace AI</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f4f6f9;--pn:#fff;--bd:#dde2ea;--tx:#1b2333;--mu:#64708a;--ac:#2563eb;--cr:#dc2626;--hi:#ea580c;--me:#ca8a04;--ok:#16a34a}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d1117;--pn:#151b25;--bd:#252e3d;--tx:#e4e9f2;--mu:#8592aa;--ac:#4c8dff;--cr:#f0524f;--hi:#f2853a;--me:#e0b13a;--ok:#3fb56b}}
+:root[data-theme=dark]{--bg:#0d1117;--pn:#151b25;--bd:#252e3d;--tx:#e4e9f2;--mu:#8592aa;--ac:#4c8dff;--cr:#f0524f;--hi:#f2853a;--me:#e0b13a;--ok:#3fb56b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+#app{display:flex;min-height:100vh}
+aside{width:220px;background:var(--pn);border-right:1px solid var(--bd);padding:14px 10px;flex-shrink:0;display:flex;flex-direction:column}
+.logo{font-weight:800;letter-spacing:1px;padding:4px 8px}.logo small{display:block;font-weight:400;font-size:10px;color:var(--mu);letter-spacing:0}
+nav button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--mu);padding:8px 10px;border-radius:6px;cursor:pointer;font:inherit}
+nav button.on,nav button:hover{background:color-mix(in srgb,var(--ac) 14%,transparent);color:var(--tx)}
+.st{margin-top:auto;font-size:12px;color:var(--mu);padding:8px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px}
+main{flex:1;min-width:0}
+header{display:flex;gap:8px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--bd);background:var(--pn);flex-wrap:wrap}
+input,textarea,select{background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font:inherit}
+header input{flex:1;min-width:140px}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:6px;padding:7px 12px;cursor:pointer;font:inherit}.btn.g{background:none;color:var(--tx);border:1px solid var(--bd)}
+.pg{padding:16px;max-width:1200px}h2{margin:0 0 4px;font-size:20px}h3{margin:0 0 8px;font-size:15px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.card{background:var(--pn);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:12px}
+.kpi b{font-size:24px;display:block}.kpi span{color:var(--mu);font-size:12px}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:7px 8px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}th{color:var(--mu);font-weight:500}
+tr.cl{cursor:pointer}tr.cl:hover{background:color-mix(in srgb,var(--ac) 8%,transparent)}
+.b{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11px;font-weight:600;border:1px solid}
+.CRITICAL,.HIGH{color:var(--cr);border-color:var(--cr)}.MEDIUM{color:var(--me);border-color:var(--me)}.LOW,.INFO{color:var(--ok);border-color:var(--ok)}
+.tag{font-size:10px;padding:1px 6px;border-radius:4px;background:var(--bd);color:var(--mu);margin-left:4px}
+.tabs{display:flex;gap:4px;overflow-x:auto;margin-bottom:12px;border-bottom:1px solid var(--bd)}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;color:var(--mu);padding:8px 10px;cursor:pointer;font:inherit;white-space:nowrap}.tabs button.on{color:var(--tx);border-color:var(--ac)}
+.note{border-left:3px solid var(--me);padding:8px 12px;background:color-mix(in srgb,var(--me) 10%,transparent);border-radius:4px;margin:8px 0;font-size:13px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:4px 10px;font-size:13px}.kv div:nth-child(odd){color:var(--mu)}
+.chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.chain span.n{background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:5px 9px;font-size:12px}.chain i{color:var(--mu);font-style:normal}
+.bar{height:10px;background:var(--bd);border-radius:5px;overflow:hidden}.bar div{height:100%;background:var(--cr)}
+.step{padding:3px 0;color:var(--mu)}.step.d{color:var(--tx)}.step.d:before{content:"✓ ";color:var(--ok)}
+.big{font-size:44px;font-weight:800;line-height:1}
+.ind{border:1px solid var(--bd);border-radius:8px;margin-bottom:8px}.ind summary{padding:9px 12px;cursor:pointer;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.ind div{padding:0 12px 10px;color:var(--mu);font-size:13px}
+svg text{fill:var(--tx);font-size:11px}.node{cursor:pointer}.node rect{fill:var(--pn);stroke:var(--bd);stroke-width:1.5}.node:hover rect,.node.sel rect{stroke:var(--ac)}
+.gw{display:flex;gap:12px;flex-wrap:wrap}.gw>div:first-child{flex:1 1 560px;min-width:0}.side{flex:0 0 260px}
+.ban{font-size:12px;color:var(--mu);padding:6px 16px;background:var(--pn);border-bottom:1px solid var(--bd)}
+@media(max-width:760px){aside{position:fixed;left:-230px;top:0;bottom:0;z-index:9;transition:left .2s}aside.open{left:0}#mb{display:inline-block!important}.kv{grid-template-columns:1fr 1fr}}
+#mb{display:none}
+@media print{aside,header,.ban,.noprint{display:none!important}}
+</style></head><body><div id="app">
+<aside id="sb"><div class="logo">THREATTRACE AI<small>Email Threat Detection &amp; Forensic Intelligence</small></div><nav id="nav"></nav>
+<div class="st"><div><span class="dot"></span>System: Operational</div><div><span class="dot"></span>AI Engine: Online</div><div><span class="dot"></span>Threat Intel: Demo feed</div><div><span class="dot" id="ad"></span><span id="as">API: connecting…</span></div><div id="ls">Last refresh: —</div></div></aside>
+<main><header><button class="btn g" id="mb" onclick="sb.classList.toggle('open')">☰</button><input id="q" placeholder="Search email, domain, IP, URL, hash, campaign, Threat DNA…" onkeydown="if(event.key=='Enter')go('search')"><span class="b LOW">AI online</span><span class="tag" id="inv"></span><button class="btn g" onclick="alert('3 new alerts: 1 Critical, 2 High (demo)')">🔔 3</button><button class="btn g" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme=='light'?'dark':'light'">◐</button><span class="tag">Analyst: S. Rao</span></header>
+<div class="ban">ThreatTrace AI is an AI-powered email forensic intelligence platform that correlates email content, identity, infrastructure, behavioral signals and threat intelligence to produce explainable threat investigations. It complements, and does not replace, existing email security products. <b>Dashboard data comes from the live API; investigation screens use simulated demo data.</b></div>
+<div class="pg" id="v"></div></main></div>
+<script>
+const $=s=>document.querySelector(s);
+/* ---- Data layer (inlined) ---- */
+const API_BASE_URL=location.protocol==='file:'?'https://emailthreatdetection.onrender.com':''; // same server when hosted; Render URL when opened as a local file
+function createDataLayer({baseUrl=API_BASE_URL,interval=30000,timeout=10000,onChange=()=>{}}={}){
+ const state={dash:null,emails:null,error:null,updated:null,loading:false};let timer=null;
+ async function get(path){const c=new AbortController(),t=setTimeout(()=>c.abort(),timeout);
+  try{const r=await fetch(baseUrl+path,{headers:{Accept:'application/json'},signal:c.signal});
+   if(!r.ok)throw new Error(path+' returned HTTP '+r.status);return await r.json()}
+  catch(x){throw new Error(x.name=='AbortError'?path+' timed out':x.message||'Network error')}finally{clearTimeout(t)}}
+ async function refresh(){if(state.loading)return;state.loading=true;onChange(state);
+  try{const [d,m]=await Promise.all([get('/api/dashboard'),get('/api/emails')]);
+   state.dash=d;state.emails=Array.isArray(m)?m:(Array.isArray(m&&m.emails)?m.emails:[]);state.error=null;state.updated=new Date()}
+  catch(x){state.error=x.message}  /* keep last good data */
+  state.loading=false;onChange(state)}
+ return{state,refresh,start(){refresh();clearInterval(timer);timer=setInterval(refresh,interval)},stop(){clearInterval(timer)}}}
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nf=v=>v!==null&&v!==''&&Number.isFinite(+v)?(+v).toLocaleString():'—';
+let selEm=null;
+const redraw=()=>{if(view=='dash'&&$('#dl'))$('#dl').innerHTML=dashLive()};
+function apiStatus(){const s=DL.state;$('#ad').style.background=s.error?'var(--cr)':s.updated?'var(--ok)':'var(--me)';$('#as').textContent=s.error?'API: unreachable':s.updated?'API: connected':'API: connecting…';$('#ls').textContent='Last refresh: '+(s.updated?s.updated.toLocaleTimeString():'—')}
+const DL=createDataLayer({onChange:()=>{redraw();apiStatus()}});
+const sev=t=>String(t.lvl||lvl(+t.risk||0)).toUpperCase();
+function openRow(i){const t=(DL.state.dash.recent_threats||[])[i],k=E.findIndex(x=>x.id===t.id);if(k>=0)pick(k);else{selEm=t.id;redraw()}}
+function dashLive(){
+ const s=DL.state,d=s.dash,em=s.emails||[];
+ const tools=`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px"><button class="btn g" onclick="DL.refresh()"${s.loading?' disabled':''}>↻ Refresh</button><span class="tag">${s.loading?'Loading…':s.updated?'Updated '+s.updated.toLocaleTimeString():'Not loaded'}</span><span class="tag">Auto-refresh every 30s</span></div>`;
+ const err=s.error?`<div class="note" style="border-color:var(--cr)"><b>Can't reach the API.</b> ${esc(s.error)} (${esc(API_BASE_URL||location.origin)}). ${d?'Showing the last data received.':''}</div>`:'';
+ if(!d)return tools+err+(s.error?'':'<div class="card">Loading dashboard data…</div>');
+ const recent=Array.isArray(d.recent_threats)?d.recent_threats:[],empty=!(+d.emails_analyzed)&&!em.length;
+ const K=[['Emails analyzed','emails_analyzed'],['Threats detected','threats_detected'],['High-risk emails','high_risk'],['Phishing','phishing'],['BEC','bec'],['Suspicious','suspicious']];
+ const dist=[['Phishing',+d.phishing||0],['BEC',+d.bec||0],['Suspicious',+d.suspicious||0]];
+ const L=['CRITICAL','HIGH','MEDIUM','LOW','INFO'],cnt=L.map(l=>em.filter(m=>sev(m)==l).length);
+ const m0=selEm&&{...(recent.find(x=>x.id==selEm)||{}),...(em.find(x=>x.id==selEm)||{})};
+ const F=[['ID','id'],['From','from'],['Subject','subj'],['Risk','risk'],['Level','lvl'],['Classification','cls'],['Confidence','conf'],['Time','time'],['Date','date'],['IP','ip'],['Geo','geo'],['Domain','dom'],['Attachment','att'],['SPF','spf'],['DKIM','dkim'],['DMARC','dmarc']];
+ const det=m0?(()=>{const o={};F.forEach(([k,f])=>{if(m0[f]!=null&&m0[f]!=='')o[k]=esc(m0[f])});return `<div class="card"><h3>Email details <button class="btn g" style="float:right" onclick="selEm=null;redraw()">Close</button></h3>${kv(o)}${Array.isArray(m0.chain)&&m0.chain.length?'<h3 style="margin-top:10px">URL chain</h3>'+chain(m0.chain.map(esc)):''}</div>`})():'';
+ const rows=recent.length?`<div class="tw"><table><tr><th>Time</th><th>Sender</th><th>Subject</th><th>Threat</th><th>Risk</th><th>Severity</th><th>Confidence</th></tr>${recent.map((a,i)=>`<tr class="cl" onclick="openRow(${i})"><td>${esc(a.time)}</td><td>${esc(a.from)}</td><td>${esc(a.subj)}</td><td>${esc(a.cls)}</td><td>${esc(a.risk)}</td><td>${B(esc(sev(a)))}</td><td>${a.conf!=null?esc(a.conf)+'%':'—'}</td></tr>`).join('')}</table></div>`:'<p style="color:var(--mu)">No recent threats.</p>';
+ return tools+err+(empty?'<div class="note">No emails yet. The API returned zero emails.</div>':'')+
+ `<div class="grid">${K.map(k=>`<div class="card kv2 kpi"><b>${nf(d[k[1]])}</b><span>${k[0]}</span></div>`).join('')}</div>`+
+ `<div class="grid"><div class="card"><h3>Threat distribution</h3>${dist.some(x=>x[1])?bars(dist):'<p style="color:var(--mu)">No threats detected.</p>'}</div><div class="card"><h3>Alert queue</h3>${em.length?L.map((l,i)=>`<div style="margin:6px 0">${B(l)} ${cnt[i]} emails</div>`).join(''):'<p style="color:var(--mu)">No alerts.</p>'}</div></div>`+
+ det+`<div class="card"><h3>Recent threats <span class="tag">click a row to investigate</span></h3>${rows}</div>`}
+const NAV=[['dash','Dashboard'],['analysis','Email Analysis'],['inv','Threat Investigations'],['graph','Attack Graph'],['intel','Threat Intelligence'],['camp','Campaigns'],['beh','Behavioral Analytics'],['dna','Threat DNA'],['rep','Reports'],['set','Settings']];
+const E=[
+{id:'INV-2026-0412',from:'priya.nair@acme-vendor.com',subj:'Purchase order confirmation PO-4471',risk:8,lvl:'LOW',cls:'Legitimate vendor communication',conf:97,time:'09:12',
+ ind:[['Sender domain matches known vendor','LOW','acme-vendor.com seen in 212 prior emails','Observed',99],['SPF/DKIM/DMARC aligned with history','LOW','Same relay and ASN as prior mail','Observed',96],['Sending time and country typical','LOW','India, 10:12 IST','Observed',94]],
+ ip:'103.21.x.x',geo:'Mumbai, India',dom:'acme-vendor.com',age:'9 yrs',chain:['Email URL','https://acme-vendor.com/po/4471'],att:'PO-4471.pdf (clean, no URLs)',dna:'—'},
+{id:'INV-2026-0413',from:'support@micr0soft-alert.com',subj:'Password expiry notice – action required',risk:94,lvl:'CRITICAL',cls:'Credential Phishing',conf:96,time:'09:31',
+ ind:[['Look-alike domain (o→0) of microsoft.com','CRITICAL','micr0soft-alert.com, similarity 94%','Observed',97],['Redirect chain of 2 hops to login form','HIGH','bit.ly → cdn-verify.top → login page','Observed',93],['Domain registered 2 days ago','HIGH','Registered 27 Sep 2026','Observed',95],['Urgency language','MEDIUM','"expires in 2 hours"','AI-generated',88]],
+ ip:'45.13.x.x',geo:'Amsterdam, Netherlands',dom:'micr0soft-alert.com',age:'2 days',chain:['Email URL','bit.ly/3xKp','cdn-verify.top','Credential harvesting page'],att:'None',dna:'TT-2B77-41D0-K3'},
+{id:'INV-2026-0414',from:'accounts@vendor-secure.com',subj:'URGENT PAYMENT REQUIRED – Invoice Update',risk:91,lvl:'HIGH',cls:'Business Email Compromise + Credential Phishing',conf:94,time:'02:43',
+ ind:[['Sender domain differs from known vendor domain','HIGH','vendor-secure.com vs known vendor.com','Observed',96],['Look-alike of vendor domain','HIGH','Character substitution / brand impersonation','Inferred',92],['URL redirects through 3 domains','HIGH','short.ly → r-track.net → vendor-secure-login.com','Observed',95],['Final destination has credential form','CRITICAL','Password field and cloned vendor portal','Observed',97],['No previous communication history','MEDIUM','0 prior emails from this sender','Observed',90],['Urgency / payment language','MEDIUM','"URGENT", "bank details changed"','AI-generated',89],['Writing style differs from vendor history','MEDIUM','Stylometric deviation 0.71','AI-generated',82],['Attachment contains embedded URL','HIGH','Invoice_September.pdf links to r-track.net','Observed',93],['Sending infrastructure newly observed','MEDIUM','IP first seen 12 Aug 2026','Observed',85]],
+ ip:'185.xxx.xxx.xxx',geo:'Frankfurt, Germany',dom:'vendor-secure-login.com',age:'6 days',chain:['Email URL','short.ly/inv9','r-track.net','vendor-secure-login.com','Credential harvesting page'],att:'Invoice_September.pdf',dna:'TT-8F3A-92C1-X7'}];
+let cur=2,done=false,tab=0,view='dash';
+const e=()=>E[cur],T=(a,b)=>`<span class="tag">${b}</span>`;
+const kv=o=>'<div class="kv">'+Object.entries(o).map(([k,v])=>`<div>${k}</div><div>${v}</div>`).join('')+'</div>';
+const chain=a=>'<div class="chain">'+a.map(x=>`<span class="n">${x}</span>`).join('<i>→</i>')+'</div>';
+const B=l=>`<span class="b ${l}">${l}</span>`;
+function nav(){$('#nav').innerHTML=NAV.map(n=>`<button class="${view==n[0]?'on':''}" onclick="go('${n[0]}')">${n[1]}</button>`).join('');$('#inv').textContent=e().id}
+function go(x){view=x;sb.classList.remove('open');nav();$('#v').innerHTML=V[x]();scrollTo(0,0)}
+function pick(i){cur=i;done=false;tab=0;go('analysis')}
+const alerts=[['02:43','accounts@vendor-secure.com','URGENT PAYMENT REQUIRED','BEC',91,'Investigating',2],['09:31','support@micr0soft-alert.com','Password Expiry','Credential Phishing',94,'Blocked',1],['09:12','priya.nair@acme-vendor.com','PO confirmation','Safe',8,'Cleared',0],['08:50','hr@payr0ll-update.co','Payroll direct deposit change','Payroll fraud',78,'Queued',2],['08:14','ceo.office@acme-corp.net','Quick favor – gift cards','CEO impersonation',72,'Queued',2]];
+function lvl(r){return r>=90?'CRITICAL':r>=70?'HIGH':r>=40?'MEDIUM':'LOW'}
+const rowsAlerts=()=>`<div class="tw"><table><tr><th>Time</th><th>Sender</th><th>Subject</th><th>Threat</th><th>Risk</th><th>Severity</th><th>Status</th></tr>${alerts.map(a=>`<tr class="cl" onclick="pick(${a[6]})"><td>${a[0]}</td><td>${a[1]}</td><td>${a[2]}</td><td>${a[3]}</td><td>${a[4]}</td><td>${B(lvl(a[4]))}</td><td>${a[5]}</td></tr>`).join('')}</table></div>`;
+function bars(d){const m=Math.max(...d.map(x=>x[1]));return d.map(x=>`<div style="display:flex;gap:8px;align-items:center;margin:5px 0"><span style="width:150px;font-size:12px">${x[0]}</span><div class="bar" style="flex:1"><div style="width:${x[1]/m*100}%;background:var(--ac)"></div></div><b style="width:36px;text-align:right">${x[1]}</b></div>`).join('')}
+const NODES=[['Victim','emp.finance@acme.com','Recipient; finance team; 0 prior contact with sender.',40,190,'Observed'],['Email','Suspicious Email','Message-ID &lt;9f2c@vendor-secure.com&gt;; risk 91.',190,190,'Observed'],['Sender','accounts@vendor-secure.com','New sender, SPF/DKIM pass but domain look-alike.',340,60,'Observed'],['Domain','vendor-secure.com','Registered 6 days ago; resembles vendor.com.',490,60,'Inferred'],['IP','185.xxx.xxx.xxx','First seen 12 Aug 2026; 17 demo threat reports.',640,60,'Simulated'],['ASN / Geo','AS12345 · Frankfurt DE','Data center; geographic deviation vs India/Singapore history (contextual, not proof).',790,60,'Observed'],['URL','short.ly/inv9','Shortened link in body.',340,190,'Observed'],['Redirector','r-track.net','Second hop; registered 9 days ago.',490,190,'Observed'],['Final Domain','vendor-secure-login.com','Credential harvesting page with password field.',640,190,'Observed'],['Attachment','Invoice_September.pdf','184 KB; embeds URL to r-track.net.',340,320,'Observed'],['SHA-256','9c1f…b7e4','Demo hash; seen in 5 emails in campaign.',490,320,'Simulated'],['Sandbox','Credential form detected','Network request at 00:02; form at 00:07.',640,320,'Simulated'],['Cluster','Possible infrastructure cluster #C-17','Shared registrar, ASN and template. No actor attribution made.',790,190,'Inferred'],['Campaign','INV-2026-091','Invoice Fraud Sept 2026; 47 emails.',790,320,'Inferred']];
+const EDG=[[0,1],[1,2],[2,3],[3,4],[4,5],[1,6],[6,7],[7,8],[1,9],[9,10],[10,11],[8,12],[12,13],[11,13]];
+function graph(){return `<div class="gw"><div class="card tw"><svg id="g" viewBox="0 0 940 390" width="940" height="390" style="min-width:760px">${EDG.map(([a,b])=>`<line x1="${NODES[a][3]+65}" y1="${NODES[a][4]+18}" x2="${NODES[b][3]+65}" y2="${NODES[b][4]+18}" stroke="var(--mu)" stroke-width="1.3" opacity=".6"/>`).join('')}${NODES.map((n,i)=>`<g class="node" onclick="sel(${i})" id="n${i}"><rect x="${n[3]}" y="${n[4]}" width="130" height="36" rx="8"/><text x="${n[3]+8}" y="${n[4]+15}" style="font-weight:700;font-size:10px">${n[0]}</text><text x="${n[3]+8}" y="${n[4]+28}" style="font-size:9px;fill:var(--mu)">${n[1].slice(0,24)}</text></g>`).join('')}</svg></div><div class="card side" id="side"><h3>Node details</h3><p style="color:var(--mu)">Click any node to inspect it.</p></div></div>`}
+function sel(i){document.querySelectorAll('.node').forEach(x=>x.classList.remove('sel'));$('#n'+i).classList.add('sel');const n=NODES[i];$('#side').innerHTML=`<h3>${n[0]}</h3><b>${n[1]}</b><p>${n[2]}</p><span class="b MEDIUM">${n[5]}</span>`}
+const act=['Quarantine email','Block sender','Block domain','Block URL','Search org mailboxes','Check affected users','Investigate related emails','Escalate to SOC','Add indicators to watchlist'];
+function tabsView(){const x=e(),T=['Verdict & XAI','Headers','IP & Geo','Domain','URLs','Attachment','Behavior','Actions'];
+const bod=[()=>`<div class="grid"><div class="car

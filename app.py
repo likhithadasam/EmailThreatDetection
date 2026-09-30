@@ -11,7 +11,7 @@ import json
 import os
 import sqlite3
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
 DB_PATH = os.environ.get("DB_PATH", "sample.db")
@@ -83,6 +83,12 @@ def load_emails():
 def has(e, *words):
     c = str(e["cls"]).lower()
     return any(w in c for w in words)
+
+
+@app.get("/")
+def index():
+    """Serve the dashboard from the same server (no CORS or file:// issues)."""
+    return send_from_directory(os.path.dirname(os.path.abspath(__file__)), "ThreatTrace_AI.html")
 
 
 @app.get("/api/emails")
